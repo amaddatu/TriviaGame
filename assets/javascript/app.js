@@ -1,4 +1,7 @@
-// game object for trivia game
+/**
+ * game object for trivia game
+ * @type {Object}
+ */
 var triviaGame = {
     // counter for something?? possibly answers counter
     counter: 0,
@@ -123,6 +126,7 @@ var triviaGame = {
     /**
      * This will check the answers based on the click
      * @param {Event} event - The click event object captured from the browser
+     * @listens click
      */
     checkAnswers: function (event) {
 
@@ -294,10 +298,10 @@ var triviaGame = {
 
 };
 
-// makes a copy of the original game object so that we can properly restart
+/** @type {Object} makes a copy of the original game object so that we can properly restart */
 var template = $.extend(true, {}, triviaGame);
 
-/**
+/** 
  * This is the start button function.
  */
 function start() {
@@ -307,7 +311,7 @@ function start() {
     triviaGame.populateQuestions();
 
 };
-/**
+/** 
  * This is the restart button function.
  */
 function restart() {
