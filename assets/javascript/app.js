@@ -1,13 +1,18 @@
-
+// game object for trivia game
 var triviaGame = {
-
+    // counter for something?? possibly answers counter
     counter: 0,
+    // questions array
     questions:
 
         [
             {
+                // the question
                 question: "What is the capital of United Kingdom?",
+                // try to avoid strongly coupled arrays... instead use objects
+                // array of choices... this must be in sync with the answer array
                 choices: ["Manchester", "Birmingham", "London", "Birmingham"],
+                // array of answers... this must be in sync with the choices array
                 answer: [0, 1, 0, 0]
             },
 
@@ -62,10 +67,13 @@ var triviaGame = {
             }
         ],
 
-
+    // counter for something ?? possibly questions counter
     globalIndex: 0,
+    // number of correct answers
     correct: 0,
+    // number of incorrect answers
     incorrect: 0,
+    // number of null or non-answers where the clock ran out of time
     noAnswer: 0,
 
     //  Variable that will hold our setInterval that runs the stopwatch
@@ -73,9 +81,14 @@ var triviaGame = {
 
     // prevents the clock from being sped up unnecessarily
     clockRunning: false,
+
+    // maximum time per question
     time: 30,
 
-
+    /**
+     * This will populate the questions in the instructions div, replacing the contents with the question
+     * @param {Event} event - The event object captured from the browser (not currently used)
+     */
     populateQuestions: function (event) {
         if (this.counter == 10) {
             this.clearForm();
@@ -107,7 +120,10 @@ var triviaGame = {
             this.globalIndex++;
         }
     },
-
+    /**
+     * This will check the answers based on the click
+     * @param {Event} event - The click event object captured from the browser
+     */
     checkAnswers: function (event) {
 
         // console.log("IN THE CHECK ANSWERS FUNCTION");
@@ -158,6 +174,11 @@ var triviaGame = {
         }
     },
 
+    /**
+     * This will replace anything in the instructions div. (anything in the instructions div will be replaced)
+     * The score/correct/incorrect/noanswer will be shown and updated.
+     * Time display will be hidden.
+     */
     finalResults: function () {
         $("#instructions").text("DRUM ROLL PLEASE!.... Let's see how you did. ");
         $("#score-area").show();
@@ -167,12 +188,19 @@ var triviaGame = {
         $("#timeDisplay").hide();
     },
 
+    /**
+     * This will remove anything in the instructions div.
+     * This will also remove anything in the multiple-choice div.
+     */
     clearForm: function () {
         $("#instructions").text("");
         $("#multiple-choice").empty();
         this.time = 30;
     },
 
+    /**
+     * This will start the timer.
+     */
     run: function () {
 
         // if the timer is not on we set it
@@ -184,11 +212,19 @@ var triviaGame = {
 
     },
 
+    /**
+     * This will stop the timer.
+     */
     stop: function () {
         console.log("STOP");
         clearInterval(intervalId);
         timerOn = false;
     },
+
+
+    /**
+     * This will increment the timer and also detect if the time runs out. It will increment the answer counter if the time runs out.
+     */
     count: function () {
 
         console.log("TIME TEST: " + this.time);
@@ -230,6 +266,11 @@ var triviaGame = {
         $("#timeDisplay").text(currentTime);
     },
 
+    /**
+     * This function allows us to adjust the display of the time.
+     * @param {number} t - the number of seconds
+     * @return {string} A string that has both minute and seconds
+     */
     timeConverter: function (t) {
 
         //  Takes the current time in seconds and convert it to minutes and seconds (mm:ss).
@@ -253,8 +294,12 @@ var triviaGame = {
 
 };
 
+// makes a copy of the original game object so that we can properly restart
 var template = $.extend(true, {}, triviaGame);
 
+/**
+ * This is the start button function.
+ */
 function start() {
     $('#start-button').remove();
     console.log("IN START");
@@ -262,6 +307,9 @@ function start() {
     triviaGame.populateQuestions();
 
 };
+/**
+ * This is the restart button function.
+ */
 function restart() {
     //WONT RESET -------
     console.log("IN RESTART");
